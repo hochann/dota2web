@@ -1,0 +1,9 @@
+/*英雄、物品背景界面样式*/
+body{
+	background-image: url(${pageContext.request.contextPath }/img/hbg.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.itemImg:hover{
+  	transform: scale(1.5);
+}

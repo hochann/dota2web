@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+mapper接口代理实现编写规则:
+	1. 映射文件中namespace要等于接口的全路径名称
+	2. 映射文件中sql语句id要等于接口的方法名称
+	3. 映射文件中传入参数类型要等于接口方法的传入参数类型
+	4. 映射文件中返回结果集类型要等于接口方法的返回值类型
+ -->
+<mapper namespace="com.dota2.dao.UserMapper" >
+	<!--登录查找用户 -->
+	<select id="findUser" parameterType="com.dota2.pojo.User" resultType="com.dota2.pojo.User">
+		select * from user where username=#{username} and password=#{password}
+	</select>
+	<!-- 查找用户名 -->
+	<select id="findByName" parameterType="string" resultType="com.dota2.pojo.User">
+		select * from user where username=#{username}
+	</select>
+	<!-- 查找用户id -->
+	<select id="findById" parameterType="Integer" resultType="com.dota2.pojo.User">
+		select * from user where uid=#{uid}
+	</select>
+	<!-- 注册用户 -->
+	<select id="register" parameterType="com.dota2.pojo.User">
+		insert into user (username,password,img,birthday)
+		values (#{username},#{password},#{img},#{birthday})
+	</select>
+	<!-- 修改用户 -->
+	<update id="update" parameterType="com.dota2.pojo.User">
+		update user
+		<!-- set标签作用:
+			第一可以自动添加set关键字, 
+			第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="password != null and password != ''">
+				password=#{password},
+			</if>
+			<if test="img != null and img != ''">
+				img=#{img},
+			</if>
+			<if test="birthday != null and birthday != ''">
+				birthday=#{birthday},
+			</if>
+		</set>
+		where uid=#{uid}
+	</update>
+	<!-- 英雄数据 -->
+	<select id="findAllHero" resultType="com.dota2.vo.HeroDetail">
+		SELECT h.hid,h.hero_name,h.hero_bg,h.hero_img,h.attr,h.type,
+		GROUP_CONCAT(s.skill) AS skill ,GROUP_CONCAT(s.detail) AS detail from hero h
+		LEFT JOIN skill s ON h.hid=s.skill_id
+		GROUP BY h.hid
+	</select>
+	<!-- 查询英雄详细数据 -->
+	<select id="findHeroDetail" parameterType="Integer" resultType="com.dota2.vo.HeroDetail">
+		SELECT h.hid,h.hero_name,h.hero_bg,h.hero_img,h.attr,h.type,
+		GROUP_CONCAT(s.skill) AS skill ,GROUP_CONCAT(s.detail) AS detail,
+		GROUP_CONCAT(s.img) AS img from hero h
+		LEFT JOIN skill s ON h.hid=s.skill_id
+		where h.hid=#{id}
+	</select>
+	<!-- 物品数据 -->
+	<select id="findAllItem" resultType="com.dota2.pojo.Item">
+		select * from item
+	</select>
+	<!-- 查找物品详细 -->
+	<select id="findItemDetail" parameterType="Integer" resultType="com.dota2.pojo.Item">
+		select * from item where item_id=#{id}
+	</select>
+	<!-- 查询所有 -->
+ 	<select id="findAll" resultType="com.dota2.pojo.User">
+ 		select * from user
+ 	</select>
+ 	<!--登录查找管理员 -->
+	<select id="findAdmin" parameterType="com.dota2.pojo.Admin" resultType="com.dota2.pojo.Admin">
+		select * from admin where name=#{name} and password=#{password}
+	</select>
+	<!-- 删除单个 -->
+ 	<delete id="delete" parameterType="Integer">
+ 		delete from user where uid = #{id}
+ 	</delete>
+ 	<!-- 删除多个 -->
+ 	<delete id="deleteAll" parameterType="Integer">
+ 		delete from user where uid in 
+		<foreach collection="array" item="id" 
+		open="(" separator="," close=")">
+			#{id}
+		</foreach>
+ 	</delete>
+ 	<!-- 模糊查询 -->
+	<select id="search" parameterType="String" resultType="com.dota2.pojo.User">
+		select * from user where
+		concat_ws(uid,username,password,birthday) like concat('%',#{condition},'%')
+	</select>
+	<!-- 添加评论 -->
+ 	<insert id="addComment" parameterType="com.dota2.pojo.Comment">
+ 		insert into comment (uid,comment,status,created_at,updated_at,zan_count,ruid,num,ntype,rname)
+		values (#{uid},#{comment},1,#{created_at},#{updated_at},#{zan_count},#{ruid},#{num},#{ntype},#{rname})
+ 	</insert>
+ 	<!--根据类型查询新闻及评论-->
+ 	<resultMap type="com.dota2.vo.News" id="news">
+ 		<id property="nid" column="nid"/>
+ 		<result property="title" column="title"/>
+ 		<result property="content" column="content"/>
+ 		<result property="time" column="time"/>
+ 		<result property="type" column="type"/>
+ 		<!-- 一对多关系  -->
+ 		<collection property="comments" ofType="com.dota2.pojo.Comment">
+ 			<id property="id" column="id"/>
+ 			<id property="uid" column="uid"/>
+ 			<id property="ruid" column="ruid"/>
+ 			<result property="comment" column="comment"/>
+ 			<result property="created_at" column="created_at"/>
+ 			<result property="rname" column="rname"/>
+ 			<result property="zan_count" column="zan_count"/>
+ 		</collection>
+ 	</resultMap>
+	<select id="findNews" resultMap="news">
+		SELECT n.nid,n.title,n.content,n.time,n.type,c.comment,c.created_at,c.id,c.uid,c.ruid,c.rname,c.zan_count
+		FROM news n,comment c
+		WHERE n.type=c.ntype AND c.status=1 AND n.type like #{0}
+		<if test="px!=null and px!=''">
+		order by zan_count ${px}
+		</if>
+		<if test="pxt!=null and pxt!=''">
+		order by created_at ${pxt}
+		</if>
+	</select>
+	<!--条件查询英雄-->
+	<select id="searchHero" parameterType="com.dota2.vo.Condition" resultType="com.dota2.pojo.Hero">
+		SELECT * FROM hero
+		<where>
+			<if test="type!=null and type!=''">
+          	and type LIKE concat('%',#{type},'%')
+			</if>
+			<if test="attr!=null and attr!=''">
+            and attr LIKE #{attr}
+			</if>
+       </where>
+	</select>
+	<!--条件查询物品-->
+	<select id="searchItem" parameterType="com.dota2.vo.Condition" resultType="com.dota2.pojo.Item">
+		SELECT * FROM item
+		<where>
+			<if test="type!=null and type!=''">
+          	and item_type LIKE concat('%',#{type},'%')
+			</if>
+		</where>
+        <if test="price!=null and price!=''">
+            order by item_price ${price}
+		</if>
+	</select>
+	<!--根据id查找评论-->
+	<select id="findComment" parameterType="Integer" resultType="com.dota2.pojo.Comment">
+		select * from comment
+		where id = #{id}
+	</select>
+	<!--修改评论-->
+	<update id="updateComment" parameterType="com.dota2.pojo.Comment">
+		update comment
+		<set>
+			<if test="zan_count != null and zan_count != ''">
+				zan_count=#{zan_count},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+</mapper>

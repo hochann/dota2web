@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+mapper接口代理实现编写规则:
+	1. 映射文件中namespace要等于接口的全路径名称
+	2. 映射文件中sql语句id要等于接口的方法名称
+	3. 映射文件中传入参数类型要等于接口方法的传入参数类型
+	4. 映射文件中返回结果集类型要等于接口方法的返回值类型
+ -->
+ <mapper namespace="com.dota2.dao.HeroMapper">
+ 	<!-- 查询所有 -->
+ 	<select id="findAll" resultType="com.dota2.pojo.Hero">
+ 		select * from hero
+ 	</select>
+ 	<!-- 添加 -->
+ 	<insert id="insert" parameterType="com.dota2.pojo.Hero">
+ 		insert into hero (hero_name,hero_bg,hero_img,attr,skill,type)
+		values (#{hero_name},#{hero_bg},#{hero_img},#{attr},#{skill},#{type})
+ 	</insert>
+ 	<!-- 删除单个 -->
+ 	<delete id="delete" parameterType="Integer">
+ 		delete from hero where hid = #{id}
+ 	</delete>
+ 	<!-- 删除多个 -->
+ 	<delete id="deleteAll" parameterType="Integer">
+ 		delete from hero where hid in 
+		<foreach collection="array" item="id" 
+		open="(" separator="," close=")">
+			#{id}
+		</foreach>
+ 	</delete>
+ 	<!-- 根据id查询 单个 -->
+ 	<select id="selectById" parameterType="Integer" resultType="com.dota2.pojo.Hero">
+ 		select * from hero where hid = #{id}
+ 	</select>
+ 	<!-- 修改  -->
+ 	<update id="update" parameterType="com.dota2.pojo.Hero">
+ 		update hero
+		<!-- set标签作用:
+			第一可以自动添加set关键字, 
+			第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="hero_name != null and hero_name != ''">
+				hero_name=#{hero_name},
+			</if>
+			<if test="hero_bg != null and hero_bg != ''">
+				hero_bg=#{hero_bg},
+			</if>
+			<if test="hero_img != null and hero_img != ''">
+				hero_img=#{hero_img},
+			</if>
+			<if test="attr != null and attr != ''">
+				attr=#{attr},
+			</if>
+			<if test="skill != null and skill != ''">
+				skill=#{skill},
+			</if>
+			<if test="type != null and type != ''">
+				type=#{type},
+			</if>
+		</set>
+		where hid=#{hid}
+ 	</update>
+ 	<!-- 查询总数-->
+	<select id="getTotalRecord" resultType="int">
+		select count(*) from hero
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryAll" parameterType="com.dota2.util.PageBean" resultType="com.dota2.pojo.Hero">
+		select * from hero 
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="search" parameterType="String" resultType="com.dota2.pojo.Hero">
+		select * from hero where
+		concat_ws(hid,hero_name,hero_bg,attr,type) like concat('%',#{condition},'%')
+	</select>
+ </mapper>

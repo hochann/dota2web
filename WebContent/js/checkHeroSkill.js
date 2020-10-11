@@ -1,0 +1,28 @@
+$(function(){
+	$("#Form").validate({
+		rules:{
+			skill_id:{
+				required:true,
+				rangelength:[1,3]
+			},
+			skill:{
+				required:true
+			},
+			detail:{
+				required:true
+			}
+		},
+		messages:{
+			skill_id:{
+				required:"英雄id不能为空",
+				rangelength:"英雄id为1到3位"
+			},
+			skill:{
+				required:"技能名不能为空",
+			},
+			detail:{
+				required:"技能描述不能为空",
+			}
+		}
+	});
+});

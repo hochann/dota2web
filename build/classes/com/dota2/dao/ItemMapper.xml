@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+mapper接口代理实现编写规则:
+	1. 映射文件中namespace要等于接口的全路径名称
+	2. 映射文件中sql语句id要等于接口的方法名称
+	3. 映射文件中传入参数类型要等于接口方法的传入参数类型
+	4. 映射文件中返回结果集类型要等于接口方法的返回值类型
+ -->
+ <mapper namespace="com.dota2.dao.ItemMapper">
+ 	<!-- 查询所有 -->
+ 	<select id="findAll" resultType="com.dota2.pojo.Item">
+ 		select * from item
+ 	</select>
+ 	<!-- 添加 -->
+ 	<insert id="insert" parameterType="com.dota2.pojo.Item">
+ 		insert into item (item_name,item_details,item_img,item_price,item_type)
+		values (#{item_name},#{item_details},#{item_img},#{item_price},#{item_type})
+ 	</insert>
+ 	<!-- 删除单个 -->
+ 	<delete id="delete" parameterType="Integer">
+ 		delete from item where item_id = #{id}
+ 	</delete>
+ 	<!-- 删除多个 -->
+ 	<delete id="deleteAll" parameterType="Integer">
+ 		delete from item where item_id in 
+		<foreach collection="array" item="id" 
+		open="(" separator="," close=")">
+			#{id}
+		</foreach>
+ 	</delete>
+ 	<!-- 根据id查询 单个 -->
+ 	<select id="selectById" parameterType="Integer" resultType="com.dota2.pojo.Item">
+ 		select * from item where item_id = #{id}
+ 	</select>
+ 	<!-- 修改  -->
+ 	<update id="update" parameterType="com.dota2.pojo.Item">
+ 		update item
+		<!-- set标签作用:
+			第一可以自动添加set关键字, 
+			第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="item_name != null and item_name != ''">
+				item_name=#{item_name},
+			</if>
+			<if test="item_details != null and item_details != ''">
+				item_details=#{item_details},
+			</if>
+			<if test="item_img != null and item_img != ''">
+				item_img=#{item_img},
+			</if>
+			<if test="item_type != null and item_type != ''">
+				item_type=#{item_type},
+			</if>
+			<if test="item_price != null and item_price != ''">
+				item_price=#{item_price},
+			</if>
+		</set>
+		where item_id=#{item_id}
+ 	</update>
+ 	<!-- 查询总数-->
+	<select id="getTotalRecord" resultType="int">
+		select count(*) from item
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryAll" parameterType="com.dota2.util.PageBean" resultType="com.dota2.pojo.Item">
+		select * from item 
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!-- 模糊查询 -->
+	<!-- 注意：concat的 作用是 将多条字段拼成字符串。 结果发现有些条目查询不出来
+		因为concat（）中有任何参数是null,则返回为空
+		解决办法 :1、把null的条目让他不是null
+		2、concat_ws()方法 
+		用法：concat_ws(separator,str1,str2,…) 
+		以separator作为分隔符 拼接后面的参数 成为一个字符串 ，有null 也无所谓  -->
+	<select id="search" parameterType="String" resultType="com.dota2.pojo.Item">
+		select * from item where
+		concat_ws(item_id,item_details,item_type,item_price,item_name) like concat('%',#{condition},'%')
+	</select>
+ </mapper>

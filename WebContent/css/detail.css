@@ -1,0 +1,23 @@
+/*英雄、物品详细界面样式*/
+.ana{
+	margin-left:10px;
+	margin-top:40px;
+	color:#00EE00;
+	type:button;
+	width:200px;
+	height:60px;
+	line-height:40px;
+	background-color:#636363;
+}
+.nr{
+	color:#EE7600;
+	font-size:16px;
+}
+.bt{
+	font-size:20px;
+	color:#737373;
+}
+.bj{
+	font-size:33px;
+	color:#CCCCCC;
+}

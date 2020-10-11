@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+mapper接口代理实现编写规则:
+	1. 映射文件中namespace要等于接口的全路径名称
+	2. 映射文件中sql语句id要等于接口的方法名称
+	3. 映射文件中传入参数类型要等于接口方法的传入参数类型
+	4. 映射文件中返回结果集类型要等于接口方法的返回值类型
+ -->
+ <mapper namespace="com.dota2.dao.SkillMapper">
+ 	<!-- 查询所有 -->
+ 	<select id="findAll" resultType="com.dota2.pojo.Skill">
+ 		select * from skill
+ 	</select>
+ 	<!-- 添加 -->
+ 	<insert id="insert" parameterType="com.dota2.pojo.Skill">
+ 		insert into skill (skill_id,skill,img,detail)
+		values (#{skill_id},#{skill},#{img},#{detail})
+ 	</insert>
+ 	<!-- 删除单个 -->
+ 	<delete id="delete" parameterType="Integer">
+ 		delete from skill where sid = #{id}
+ 	</delete>
+ 	<!-- 删除多个 -->
+ 	<delete id="deleteAll" parameterType="Integer">
+ 		delete from skill where sid in 
+		<foreach collection="array" item="id" 
+		open="(" separator="," close=")">
+			#{id}
+		</foreach>
+ 	</delete>
+ 	<!-- 根据id查询 单个 -->
+ 	<select id="selectById" parameterType="Integer" resultType="com.dota2.pojo.Skill">
+ 		select * from skill where sid = #{id}
+ 	</select>
+ 	<!-- 修改  -->
+ 	<update id="update" parameterType="com.dota2.pojo.Skill">
+ 		update skill
+		<set>
+			<if test="skill_id != null and skill_id != ''">
+				skill_id=#{skill_id},
+			</if>
+			<if test="skill != null and skill != ''">
+				skill=#{skill},
+			</if>
+			<if test="img != null and img != ''">
+				img=#{img},
+			</if>
+			<if test="detail != null and detail != ''">
+				detail=#{detail},
+			</if>
+		</set>
+		where sid=#{sid}
+ 	</update>
+ 	<!-- 模糊查询 -->
+	<select id="search" parameterType="String" resultType="com.dota2.pojo.Skill">
+		select * from skill where
+		concat_ws(sid,skill_id,detail,skill) like concat('%',#{condition},'%')
+	</select>
+ </mapper>

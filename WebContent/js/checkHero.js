@@ -1,0 +1,22 @@
+$(function(){
+	$("#Form").validate({
+		rules:{
+			hero_name:{
+				required:true,
+				rangelength:[1,8]
+			},
+			hero_bg:{
+				required:true
+			}
+		},
+		messages:{
+			hero_name:{
+				required:"英雄名不能为空",
+				rangelength:"英雄名为1到8位"
+			},
+			hero_bg:{
+				required:"英雄背景不能为空",
+			}
+		}
+	});
+});

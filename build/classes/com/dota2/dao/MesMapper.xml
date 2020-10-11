@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.dota2.dao.MesMapper">
+ 	<!-- 查询所有 -->
+ 	<select id="findAll" resultType="com.dota2.pojo.Comment">
+ 		select * from comment
+ 	</select>
+ 	<!--伪删除 -->
+ 	<!-- 于是多参数那么就不能使用parameterType， 改用#｛index｝是第几个就用第几个的索引，索引从0开始 -->
+ 	<update id="delete">
+ 		update comment set status=0,updated_at=#{1}
+ 		where id=#{0}
+ 	</update>
+ 	<!-- 恢复 -->
+ 	<update id="recover">
+ 		update comment set status=1,updated_at=#{1}
+ 		where id=#{0}
+ 	</update>
+ 	<!-- 重复的sql -->
+ 	<sql id="getIds">
+ 		<foreach collection="ids" item="id" 
+		open="(" separator="," close=")">
+			#{id}
+		</foreach>
+ 	</sql>
+ 	<!--删除多个-->
+ 	<update id="deleteAll">
+ 		update comment set status=0,updated_at=#{1}
+ 		where id in 
+		<include refid="getIds"/>
+ 	</update>
+ 	<!--恢复多个-->
+ 	<update id="recoverAll">
+ 		update comment set status=1,updated_at=#{1}
+ 		where id in 
+ 		<include refid="getIds"/>
+ 	</update>
+ 	<!-- 模糊查询 -->
+	<select id="search" parameterType="String" resultType="com.dota2.pojo.Comment">
+		select * from comment where
+		concat_ws(id,uid,comment,created_at,updated_at,zan_count,ntype,rname) like concat('%',#{condition},'%')
+	</select>
+ </mapper>

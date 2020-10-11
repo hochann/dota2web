@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
+        <title>欢迎进入DOTA2！！</title>
+        <!--	导入js文件是要有解析顺序的，比如你的html文件的js代码是在外部写的。
+		而且js代码要用jquery的语法。那么你要先导入jquery的js文件。这种关
+		系类似于jquery是你写的外部js的子类。所以要先导入jquery插件。否则
+		浏览器无法进行解析你的jquery语法。-->
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<script src="js/jquery-2.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 背景图片的样式-->
+		<style type="text/css">
+		body{
+			background-image: url(img/bg2.jpg);
+			background-repeat: no-repeat;
+			background-size: 100%;
+		}
+		.list-group-item{
+			background: #2B2B2B;
+		}
+		</style>
+		<!--广告-->
+		<script>
+			$(function(){
+				//开启一个定时器 2秒之后展示div
+				setTimeout(showAd,2000);
+			});	
+			//编写展示的方法
+			function showAd(){
+				//获取div,调用效果
+				//$("#ad").show(1000);
+				//$("#ad").slideDown(1000);
+				$("#ad").fadeIn(1000);
+				//开启另一个隐藏的定时器
+				setTimeout("hideAd()",3000);
+			}	
+			//编写隐藏方法
+			function hideAd(){
+				//$("#ad").hide(1000);
+				//$("#ad").slideUp(1000);
+				$("#ad").fadeOut(1000);
+			}			
+			//设置轮播图切换3s
+			$(function(){
+				$('.carousel').carousel({
+				  interval: 3000
+				})
+			})
+		</script>
+    </head>
+    <body>
+    	<!--navbar-fixed-top固定的导航条,需要为 body元素设置内补（padding）
+    	这个固定的导航条会遮住页面上的其它内容，除非你给 <body>元素底部设置了 padding。
+		导航条的默认高度是 50px。-->
+		<style type="text/css">
+			body { padding-top: 50px; }
+		</style>
+		<!--反色的导航条,通过添加 .navbar-inverse 类可以改变导航条的外观。-->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container-fluid">
+		    <div class="navbar-header" style="margin-left: 40px;">
+		      <!--移动端显示，菜单---切换导航-->
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <!--logo 图片-->
+		      <img src="img/logo.jpg" alt="DOTA2" height="50px" width="100px"/>
+		      <a class="navbar-brand" href="#">欢迎来到DOTA2！</a>
+		    </div>
+		
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li><a href="http://localhost:8080/DOTA2-test/index.jsp">首页</a></li>
+		        <li><a href="javascript:void(0);">新手引导</a></li>
+		        <!--新闻包括.... 将下拉菜单触发器和下拉菜单都包裹在 .dropdown里，-->
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">资讯新闻<span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">官方新闻</a></li>
+		            <li><a href="#">赛事新闻</a></li>
+		            <li><a href="#">更新日志</a></li>
+		          </ul>
+		        </li>
+		        <!--资料包括.... 将下拉菜单触发器和下拉菜单都包裹在 .dropdown里，-->
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">数据资料<span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">英雄数据</a></li>
+		            <li><a href="#">物品数据</a></li>
+		          </ul>
+		        </li>
+		        <li><a href="#">下载中心</a></li>
+		      </ul>
+		      <!--navbar-right 右侧登录，显示用户信息，头像等-->
+		      <ul class="nav navbar-nav navbar-right" style="margin-right: 30px;">
+		      	<!--<form class="navbar-form navbar-left"> 表单-->
+		      	<!--<li><button type="button" class="btn btn-link" style="margin-top: 7;">登录</button></li>-->
+		      	<li style="margin-right: 10px;"><a href="#">登录</a></li>
+		      	<!--</form>-->
+		      	<li style="margin-right: 10px;"><a href="#">注册</a></li>
+		        <!--头像-->
+		        <img src="img/u=2328030319,1169884121&fm=26&gp=0.jpg" alt="头像" class="img-circle" height="40px" width="40px" style="margin-top: 6px;">
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+		
+ 		<!--广告-->
+ 		<div id="ad" style="width:100%;display: none;" align="center">
+			<img src="img/deadgame.jpg"/ width="1600px">
+		</div>
+		
+<!-- 		<p class="text-center">图片轮播：</p>-->
+		<div class="container" style="width: 100%;">
+			<div id="myCarousel" class="carousel slide">
+				<!-- 轮播（Carousel）指标 -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				</ol>   
+				<!-- 轮播（Carousel）项目 -->
+				<div class="carousel-inner">
+					<div class="item active">
+						<a href="https://www.dota2.com.cn/article/details/20190116/201911.html" target="_blank">
+							<img src="img/01.jpg">
+						</a>
+					</div>
+					<div class="item">
+						<a href="https://www.dota2.com.cn/article/details/20181222/201811.html" target="_blank">
+							<img src="img/02.jpg">
+						</a>
+					</div>
+					<div class="item">
+						<a href="rubick_zb.html" target="_blank">
+							<img src="img/03.jpg">
+						</a>
+					</div>
+				</div>
+				<!-- 轮播（Carousel）导航 -->
+				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				</a>
+				<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</a>
+			</div> 
+		</div>
+		
+		<!--<p class="text-center">杂项内容：</p>-->
+		<!--内容面板-->
+		<div id="main" class="row">
+<!--			列偏移
+				使用 .col-md-offset-* 类可以将列向右侧偏移。
+				例如，.col-md-offset-4 类将 .col-md-4 元素向右侧偏移了4个列（column）的宽度。-->
+				<!--新闻中心 面版 -情境效果 -->
+				<div class="col-xs-5 col-sm-5 col-md-3 col-md-offset-1">
+					<!--面版-->
+					<div class="panel panel-info" style="margin-top: 30px; background-color: #080808">
+						<!--面版标题-->
+						<div class="panel-heading" style=" background-color:#121212">
+							<h2 class="panel-title" style="color: ghostwhite;">
+								<span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;&nbsp;新闻中心
+								<span>
+									<div>
+								    	
+								  	</div>
+								</span>
+							</h2>
+						</div>		
+					  	<!--徽章给链接、导航等元素嵌套 <span class="badge"> 元素，
+					  	可以很醒目的展示新的或未读的信息条目。
+					  	给列表组加入徽章组件，它会自动被放在右边。-->
+					  	<ul class="list-group">
+							<li class="list-group-item">
+								<span class="badge">2019-01-16</span>
+								<a>DOTA2 1月16日更新：迎霜节的珍藏II上架</a>
+							</li>
+							<li class="list-group-item">
+								<span class="badge">2019-01-14</span>
+								<a>欢迎回家” 恭喜EHOME斩获布加勒斯特Minor冠军晋级重庆Major</a>
+							</li>
+							<li class="list-group-item">
+								<span class="badge">2018-12-28</span>
+								<a>1个至宝=115个英雄特效 最“绿”至宝拉比克“魔导师密钥”登场</a>
+							</li>
+							<li class="list-group-item">
+								<span class="badge">2018-12-20</span>
+								<a>凌霜圣地：迎霜节奇谈</a>
+							</li>
+						</ul>
+							
+					</div>
+				</div>
+				
+				<!--版本更新 -->
+				<div class="col-xs-5 col-sm-5 col-md-3">
+					<!--面版-->
+					<div class="panel panel-info" style="margin-top: 30px; background-color: #080808"">
+						<!--面版标题 -->
+						<div class="panel-heading" style=" background-color:#121212">
+							<h2 class="panel-title" style="color: ghostwhite;"><span class="glyphicon glyphicon-retweet"></span>&nbsp;&nbsp;&nbsp;版本更新</h2>
+						</div>
+					  	<!--为列表中的条目添加情境类，默认样式或
+					  	链接列表都可以。还可以为列表中的条目设置 .active 状态。-->
+					  	<div class="list-group">
+						  <a href="#" class="list-group-item list-group-item-success">游戏性更新 7.20</a>
+						  <a href="#" class="list-group-item list-group-item-info">游戏性更新 7.19</a>
+						  <a href="#" class="list-group-item list-group-item-warning">游戏性更新 7.18</a>
+						  <a href="#" class="list-group-item list-group-item-danger">游戏性更新 7.10</a>
+						</div>
+					</div>	
+				</div>
+				
+				<!--游戏公告 -->
+				<div class="col-xs-5 col-sm-5 col-md-4">
+					<!--面版-->
+					<div class="panel panel-info" style="margin-top: 30px; background-color: #080808"">
+						<!--面版标题 -->
+						<div class="panel-heading" style=" background-color:#121212">
+							<h2 class="panel-title" style="color: ghostwhite;"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;&nbsp;游戏公告</h2>
+						</div>
+					  	<div class="list-group">
+							<a href="javascript:void(0)" class="list-group-item list-group-item-success">
+								<h3>DOTA2真视界——TI8总决赛纪录片</h3>
+							 	两支队伍，十人追梦。冠军神盾终究只有一面，胜利者喜悦的同时，
+							 	也注定会有失意者的落寞。2019再战上海，风霜后的果实才分外甜美。
+							 	<br />
+							 	<br />
+							 	<p align="right">----2019-01-16</p>
+							</a>
+						</div>
+					</div>	
+				</div>
+		</div>
+		<!--<p class="text-center"> 网页底部：</p>-->
+		<div class="container" style="text-align: center;">
+			<p class="col-md-12 col-xs-12 col-sm-12">
+				<a href="${pageContext.request.contextPath }/main.action">
+					关于我们
+				</a>
+				|
+				<a href="javascript:void(0)">
+					广告服务
+				</a>
+				|
+				<a href="javascript:void(0)">
+					联系我们
+				</a>
+				|
+				<a href="javascript:void(0)">
+					招聘信息
+				</a>
+				|
+				<a href="javascript:void(0)">
+					友情连接
+				</a>
+				|
+				<a href="javascript:void(0)">
+					官方微博
+				</a>
+			</p>
+			<p class="col-md-12 col-xs-12">
+				Author © 2018-2019  Nevermore
+			</p>
+		</div>
+
+    </body>
+</html>

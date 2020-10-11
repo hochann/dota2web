@@ -1,0 +1,34 @@
+$(function(){
+	$("#Form").validate({
+		rules:{
+			item_name:{
+				required:true,
+				rangelength:[1,10]
+			},
+			item_details:{
+				required:true
+			},
+			item_price:{
+				required:true,
+				digits:true,
+				rangelength:[1,8],
+				min:1
+			}
+		},
+		messages:{
+			item_name:{
+				required:"物品名不能为空",
+				rangelength:"物品名为1到10位"
+			},
+			item_details:{
+				required:"物品描述不能为空",
+			},
+			item_price:{
+				required:"物品价格不能为空",
+				digits:"价格为数字且不能为负数",
+				rangelength:"价格不能超过8位",
+				min:"价格不能为0"
+			}
+		}
+	});
+});
